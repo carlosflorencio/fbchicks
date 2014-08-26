@@ -1,22 +1,34 @@
 (function(){
-    var app = angular.module('chicks', ['facebook']);
+    var app = angular.module('chicks', ['ngFacebook']);
     var logged = false;
 
-    app.config(['$facebookProvider', function($facebookProvider) {
-        $facebookProvider.init({
-            appId: '1465096787107378',
-            channel: '//path/to/channel.html'
+    app.config( function( $facebookProvider ) {
+        $facebookProvider.setAppId('1465096787107378');
+        $facebookProvider.setPermissions("user_events");
+        $facebookProvider.setCustomInit({
+            xfbml      : true,
+            version    : 'v2.0'
         });
-    }]);
+    });
 
     app.run(['$facebook', function($facebook) {
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
         fbStatus($facebook);
     }]);
 
     app.controller('ChicksController', ['$facebook', function($facebook) {
         this.teste = 2;
 
-        $facebook.api('/me', {fields: 'last_name'}, function(response) {
+        $facebook.api('/me').then(function(response) {
+            console.log(response);
+        }, function(response) {
             console.log(response);
         });
 
@@ -51,13 +63,11 @@
     |--------------------------------------------------------------------------
     */
     function fbLogin($facebook) {
-        $facebook.login(function(response) {
-            if (response.authResponse) {
-                postFbLoginSuccessful(response);
-            } else {
-                console.log('User cancelled login or did not fully authorize.');
-            }
-        }, {scope: 'user_events'});
+        $facebook.login().then(function(response) {
+            console.log(response);
+        }, function(response) {
+            console.log(response);
+        })
     }
 
     function postFbLoginSuccessful(response) {
