@@ -1,12 +1,21 @@
-angular.module('chicks', ['ngFacebook'])
-    .config(function ($facebookProvider) {
+angular.module('chicks', ['ngFacebook', 'ngRoute'])
+    .config(['$facebookProvider', '$routeProvider', function ($facebookProvider, $routeProvider) {
         $facebookProvider.setAppId('1465096787107378');
         $facebookProvider.setPermissions("user_events");
         $facebookProvider.setCustomInit({
             xfbml: true,
             version: 'v2.0'
         });
-    })
+
+        $routeProvider.
+            when('/', {
+                templateUrl: 'views/home.html',
+                controller: 'HomeController'
+            }).
+            otherwise({
+                redirectTo: '/'
+            });
+    }])
     .run(['$facebook', function ($facebook) {
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];

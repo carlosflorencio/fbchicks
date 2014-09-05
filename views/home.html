@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="well">
+            {{ user.first_name + ' ' + user.last_name }}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="event in events">{{ event.name }}</li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <button class="btn btn-default" ng-click='previousPage()'>Prev</button>
+    </div>
+    <div class="col-md-6">
+        <button class="btn btn-default" ng-click='nextPage()'>Next</button>
+    </div>
+</div>
