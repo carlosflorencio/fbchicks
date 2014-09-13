@@ -15,6 +15,7 @@ angular.module('chicks')
 
             $EventModel.eventsAttending($scope.main.take).then(function (result) {
                 $scope.events = result.data;
+                console.log(result.data);
                 $scope.paging = result.paging;
                 console.log(result.paging);
             });
@@ -46,5 +47,6 @@ angular.module('chicks')
 
             $UserModel.info().then(function (result) {
                 $scope.user = result;
+                console.log(result);
             });
         }]);
